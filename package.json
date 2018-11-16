@@ -1,0 +1,30 @@
+{
+  "name": "temp",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "compile": "webpack",
+    "dev": "NODE_ENV='dev' nodemon ./bin/www",
+    "watch": "NODE_ENV='dev' npm run compile -- --mode='development' --watch",
+    "build": "NODE_ENV='production' npm run compile -- --mode='production'",
+    "start": "NODE_ENV='production' ts-node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "morgan": "~1.9.0",
+    "node-sass-middleware": "0.11.0",
+    "pug": "2.0.0-beta11",
+    "socket.io": "^2.1.1",
+    "socket.io-client": "latest"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "babel-loader": "^8.0.4",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2"
+  }
+}
