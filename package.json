@@ -5,6 +5,7 @@
   "scripts": {
     "compile": "webpack",
     "dev": "NODE_ENV='dev' nodemon ./bin/www",
+    "debug": "NODE_ENV='dev' DEBUG=* nodemon ./bin/www",
     "watch": "NODE_ENV='dev' npm run compile -- --mode='development' --watch",
     "build": "NODE_ENV='production' npm run compile -- --mode='production'",
     "start": "NODE_ENV='production' ts-node ./bin/www"
@@ -14,9 +15,11 @@
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
+    "mongoose": "^5.3.12",
     "morgan": "~1.9.0",
     "node-sass-middleware": "0.11.0",
     "pug": "2.0.0-beta11",
+    "rotating-file-stream": "^1.3.9",
     "socket.io": "^2.1.1",
     "socket.io-client": "latest"
   },
