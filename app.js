@@ -15,7 +15,7 @@ let app = express(),
 http.listen(3001);
 
 // connect to mongo db
-mongoose.connect('mongodb://localhost:27017/express_app', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/users', { useNewUrlParser: true });
 
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
