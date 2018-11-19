@@ -1,17 +1,27 @@
-let createError = require('http-errors'),
+let cookieParser = require('cookie-parser'),
+    createError = require('http-errors'),
     express = require('express'),
-    path = require('path'),
-    cookieParser = require('cookie-parser'),
-    logger = require('morgan'),
     fs = require('fs'),
+    logger = require('./core/logger'),
+    mongoose = require('mongoose'),
+    path = require('path'),
     sassMiddleware = require('node-sass-middleware');
 
 let app = express(),
     http = require('http').Server(app),
     io = require('socket.io')(http);
 
+
 http.listen(3001);
 
+// connect to mongo db
+mongoose.connect('mongodb://localhost:27017/express_app', { useNewUrlParser: true });
+
+let db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error"));
+db.once("open", () => {
+    console.log("Connection Succeeded");
+});
 
 // Include controllers
 fs.readdirSync('controllers').forEach((file) => {
@@ -42,7 +52,7 @@ io.on('connection', (socket) => {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(logger('dev'));
+logger(app);
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
@@ -70,5 +80,6 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
+
 
 module.exports = app;
