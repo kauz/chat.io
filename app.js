@@ -4,10 +4,10 @@ let cookieParser = require('cookie-parser'),
     express = require('express'),
     fs = require('fs'),
     settings = require('./core/settings'),
+    initAuth = require('./core/passport'),
     initDB = require('./core/mogoose'),
     initLogger = require('./core/logger'),
     initSockets = require('./core/sockets'),
-    passport = require('passport'),
     path = require('path'),
     sassMiddleware = require('node-sass-middleware');
 
@@ -22,6 +22,7 @@ settings();
 initDB();
 initSockets(app);
 initLogger(app);
+initAuth(app);
 
 app.use(cors());
 app.use(express.json());
@@ -35,7 +36,6 @@ app.use(sassMiddleware({
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 // Include controllers
 fs.readdirSync('controllers').forEach((file) => {

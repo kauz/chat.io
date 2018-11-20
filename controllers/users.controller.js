@@ -10,7 +10,7 @@ module.exports.controller = (app) => {
 
         User.find({}, 'name email', (err, users) => {
             if (err) {
-                console.error(err);
+                res.status(400).json(err);
             }
 
             if (offsetFilter || limitFilter) {
@@ -28,7 +28,7 @@ module.exports.controller = (app) => {
     app.get('/users/:id', function (req, res) {
         User.findById(req.params.id, 'name email', (err, user) => {
             if (err) {
-                console.error(err);
+                res.status(400).json(err);
             }
             res.json(user);
         });
@@ -39,12 +39,13 @@ module.exports.controller = (app) => {
 
         let user = new User({
             name: req.body.name,
-            email: req.body.email
+            email: req.body.email,
+            password: req.body.password
         });
 
-        user.save((err, data) => {
+        User.createUser(user, (err, data) => {
             if (err) {
-                console.error(err);
+                res.status(400).json(err);
             }
             res.json(data);
         });
@@ -53,7 +54,7 @@ module.exports.controller = (app) => {
     // update existing user
     app.put('/users/:id', function (req, res) {
         User.findByIdAndUpdate(req.params.id, { $set: {name: req.body.name, email: req.body.email} }, (err, data) => {
-           if (err) {console.error(err);}
+           if (err) {res.status(400).json(err);}
            res.json(data);
         });
     });
@@ -61,7 +62,7 @@ module.exports.controller = (app) => {
     // delete existing user
     app.delete('/users/:id', function (req, res) {
         User.findByIdAndRemove(req.params.id, (err, data) => {
-           if (err) {console.error(err);}
+           if (err) {res.status(400).json(err);}
            res.json(data);
         });
     });
