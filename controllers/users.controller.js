@@ -4,7 +4,7 @@ module.exports.controller = (app) => {
 
     // get all users
     app.get('/users', function (req, res) {
-        User.find({}, 'name bio', (err, users) => {
+        User.find({}, 'name email', (err, users) => {
             if (err) {
                 console.error(err);
             }
@@ -14,7 +14,7 @@ module.exports.controller = (app) => {
 
     // get single user by id
     app.get('/users/:id', function (req, res) {
-        User.findById(req.params.id, 'name bio', (err, user) => {
+        User.findById(req.params.id, 'name email', (err, user) => {
             if (err) {
                 console.error(err);
             }
