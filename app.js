@@ -14,6 +14,8 @@ let app = express(),
 
 http.listen(3001);
 
+// fix console warning - DeprecationWarning: collection.findAndModify is deprecated. Use findOneAndUpdate, findOneAndReplace or findOneAndDelete instead.
+mongoose.set('useFindAndModify', false);
 // connect to mongo db
 mongoose.connect('mongodb://localhost:27017/users', { useNewUrlParser: true });
 

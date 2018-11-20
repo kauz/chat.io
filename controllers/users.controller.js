@@ -30,13 +30,27 @@ module.exports.controller = (app) => {
             email: req.body.email
         });
 
-        console.log(user);
-
         user.save((err, data) => {
             if (err) {
                 console.error(err);
             }
             res.json(data);
+        });
+    });
+
+    // update existing user
+    app.put('/users/:id', function (req, res) {
+        User.findByIdAndUpdate(req.params.id, { $set: {name: req.body.name, email: req.body.email} }, (err, data) => {
+           if (err) {console.error(err);}
+           res.json(data);
+        });
+    });
+
+    // delete existing user
+    app.delete('/users/:id', function (req, res) {
+        User.findByIdAndRemove(req.params.id, (err, data) => {
+           if (err) {console.error(err);}
+           res.json(data);
         });
     });
 
