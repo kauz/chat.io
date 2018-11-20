@@ -2,51 +2,23 @@ let cookieParser = require('cookie-parser'),
     createError = require('http-errors'),
     express = require('express'),
     fs = require('fs'),
-    logger = require('./core/logger'),
-    mongoose = require('mongoose'),
+    initDB = require('./core/mogoose'),
+    initLogger = require('./core/logger'),
+    initSockets = require('./core/sockets'),
     path = require('path'),
     sassMiddleware = require('node-sass-middleware');
 
-let app = express(),
-    http = require('http').Server(app),
-    io = require('socket.io')(http);
+let app = express();
 
-
-http.listen(3001);
-
-// fix console warning - DeprecationWarning: collection.findAndModify is deprecated. Use findOneAndUpdate, findOneAndReplace or findOneAndDelete instead.
-mongoose.set('useFindAndModify', false);
-// connect to mongo db
-mongoose.connect('mongodb://localhost:27017/users', { useNewUrlParser: true });
-
-let db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error"));
-db.once("open", () => {
-    console.log("Connection Succeeded");
-});
-
-// Web Sockets events
-io.on('connection', (socket) => {
-
-    io.emit('user connected');
-
-    console.log('A user connected.');
-
-    socket.on('disconnect', () => {
-        console.log('User disconnected.');
-    });
-
-    socket.on('chat message', function (msg) {
-        io.emit('chat message', msg);
-    });
-
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-logger(app);
+initDB();
+initSockets(app);
+initLogger(app);
+
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
