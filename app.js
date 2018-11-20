@@ -2,6 +2,7 @@ let cookieParser = require('cookie-parser'),
     createError = require('http-errors'),
     express = require('express'),
     fs = require('fs'),
+    settings = require('./core/settings'),
     initDB = require('./core/mogoose'),
     initLogger = require('./core/logger'),
     initSockets = require('./core/sockets'),
@@ -15,6 +16,7 @@ let app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+settings();
 initDB();
 initSockets(app);
 initLogger(app);

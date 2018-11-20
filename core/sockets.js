@@ -1,6 +1,6 @@
 module.exports = (app) => {
     let http = require('http').Server(app);
-    http.listen(3001);
+    http.listen(process.env.SOCKET_PORT);
     let io = require('socket.io')(http);
 
     // Web Sockets events
