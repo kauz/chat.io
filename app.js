@@ -1,4 +1,5 @@
 let cookieParser = require('cookie-parser'),
+    cors = require('cors'),
     createError = require('http-errors'),
     express = require('express'),
     fs = require('fs'),
@@ -6,6 +7,7 @@ let cookieParser = require('cookie-parser'),
     initDB = require('./core/mogoose'),
     initLogger = require('./core/logger'),
     initSockets = require('./core/sockets'),
+    passport = require('passport'),
     path = require('path'),
     sassMiddleware = require('node-sass-middleware');
 
@@ -21,6 +23,7 @@ initDB();
 initSockets(app);
 initLogger(app);
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
