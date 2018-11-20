@@ -4,10 +4,22 @@ module.exports.controller = (app) => {
 
     // get all users
     app.get('/users', function (req, res) {
+
+        let limitFilter = req.query.limit && parseInt(req.query.limit);
+        let offsetFilter = req.query.offset && parseInt(req.query.offset);
+
         User.find({}, 'name email', (err, users) => {
             if (err) {
                 console.error(err);
             }
+
+            if (offsetFilter || limitFilter) {
+                const start = offsetFilter ? offsetFilter : 0;
+                console.log(start);
+                const end = limitFilter > 0 ? start + limitFilter : undefined;
+                users = users.slice(start, end);
+            }
+
             res.json(users);
         });
     });
