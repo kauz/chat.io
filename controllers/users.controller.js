@@ -24,7 +24,6 @@ module.exports.controller = (app) => {
 
     // add new user
     app.post('/users', function (req, res) {
-        console.log(req.body);
 
         let user = new User({
             name: req.body.name,

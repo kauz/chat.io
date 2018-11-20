@@ -23,14 +23,6 @@ db.once("open", () => {
     console.log("Connection Succeeded");
 });
 
-// Include controllers
-fs.readdirSync('controllers').forEach((file) => {
-    if (file.substr(-3) === '.js') {
-        let route = require('./controllers/' + file);
-        route.controller(app);
-    }
-});
-
 // Web Sockets events
 io.on('connection', (socket) => {
 
@@ -64,6 +56,15 @@ app.use(sassMiddleware({
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+// Include controllers
+fs.readdirSync('controllers').forEach((file) => {
+    if (file.substr(-3) === '.js') {
+        let route = require('./controllers/' + file);
+        route.controller(app);
+    }
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
